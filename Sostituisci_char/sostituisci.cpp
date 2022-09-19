@@ -1,0 +1,47 @@
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <cstring>
+using namespace std;
+
+const int MAX_DIM = 100;
+
+void trasforma(char stringa[], char carattere);
+
+int main(int argc, char* argv[]){
+
+  if(argc!=3){
+    cout << "Usage: ./sostituisci <input.txt> carattere" << endl;
+    return 0;
+  }
+
+  fstream myin;
+  
+  myin.open(argv[1], ios::in);
+
+  if(myin.fail()){
+    cout << "File inesistente" << endl;
+    return 0;
+  }
+
+  char stringa[MAX_DIM];
+  myin.getline(stringa, MAX_DIM);
+  char carattere;
+  carattere = argv[2][0];
+  trasforma(stringa, carattere);
+  cout << "Stringa trasformata: " << stringa << endl;
+  
+  return 0;
+}
+
+void trasforma(char stringa[], char carattere){
+  int i=0;
+  while(stringa[i]!='\0'){
+    if(stringa[i]==carattere){
+      stringa[i]='?';
+    }
+    i = i+1;
+  }
+}
+
+

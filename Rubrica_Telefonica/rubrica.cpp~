@@ -1,0 +1,104 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+const int MAX_DIM = 20;
+
+struct contatto{
+  char nome[MAX_DIM];
+  char cognome[MAX_DIM];
+  char telefono[MAX_DIM];
+};
+
+struct rubrica{
+  int n;
+  contatto * contatti[MAX_DIM];
+};
+
+contatto inserisci_contatto(){
+  contatto c;
+  cout << "Inserisci nome contatto: ";
+  cin >> c.nome;
+  cout << "Inserisci cognome contatto: ";
+  cin >> c.cognome;
+  cout << "Inserisci numero telefono contatto: ";
+  cin >> c.telefono;
+  return c;
+}
+
+void stampa_contatti(rubrica &r){
+  for(int i=0; i<r.n; i++){
+    contatto c = *(r.contatti[i]);
+    cout << "Nome: " << c.nome << endl;;
+    cout << "Cognome: " << c.cognome << endl;
+    cout << "Telefono: " << c.telefono << endl;
+  }
+}
+
+void sort_by_name(rubrica &r){
+  int i, j;
+  for(i = 0; i<r.n-1; i++){
+    for(j = 0; j<r.n-1-i; j++){
+      if(strcmp(r.contatti[j]->nome,r.contatti[j+1]->nome)>0){
+	contatto c = *(r.contatti[j]);
+	*(r.contatti[j]) = *(r.contatti[j+1]);
+	*(r.contatti[j+1]) = c;
+      }
+    }
+  }
+}
+
+void sort_by_last_name(rubrica &r){
+  int i, j;
+  for(i = 0; i<r.n-1; i++){
+    for(j = 0; j<r.n-1-i; j++){
+      if(strcmp(r.contatti[j]->cognome,r.contatti[j+1]->cognome)>0){
+	contatto c = *(r.contatti[j]);
+	*(r.contatti[j]) = *(r.contatti[j+1]);
+	*(r.contatti[j+1]) = c;
+      }
+    }
+  }
+}
+
+int main(){
+
+  int risposta;
+  rubrica x;
+  x.n = 0;
+  do{
+    cout << "1: inserisci contatto nella rubrica" << endl;
+    cout << "2: stampa rubrica" << endl;
+    cout << "3: ordina per nome" << endl;
+    cout << "4: ordina per cognome" << endl;
+    cout << "5: rimuovi contatto" << endl;
+    cout << "6: termina programma" << endl;
+    cin >> risposta;
+    switch(risposta){
+    case 1:
+      x.contatti[x.n] = new contatto;
+      *(x.contatti[x.n]) = inserisci_contatto();
+      x.n++;
+      break;
+    case 2:
+      stampa_contatti(x);
+      break;
+    case 3:
+      sort_by_name(x);
+      break;
+    case 4:
+      sort_by_last_name(x);
+      break;
+    case 5:
+      cout << "SVILUPPO"<<endl;
+      break;
+    case 6:
+      cout << "Fine" << endl;
+      break;
+    default:
+      cout << "Scelta sbagliata" << endl;
+    }
+  }while(risposta!=6);
+  
+  return 0;
+}

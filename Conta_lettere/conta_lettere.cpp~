@@ -1,0 +1,63 @@
+#include <iostream>
+#include <fstream>
+#include <cstring>
+
+using namespace std;
+const int MAX_DIM = 50;
+const int NLETTERE = 26;
+
+void count_letter(char stringa[], int *v){
+  char carattereControllo = 'a';
+  int j = 0;
+  do{
+    for(int i=0; stringa[i]!='\0'; i++){
+      char carattere = stringa[i];
+      if(carattere==carattereControllo||(carattere-('a'-'A'))==carattereControllo){
+	  v[j] = v[j]+1;
+	}
+    }
+    carattereControllo += 1;
+    j++;
+  }while(carattereControllo>='a' && carattereControllo<='z');
+}
+
+void print_vector(int *v){
+  char carattere = 'a';
+  for(int i=0; i<NLETTERE; i++){
+    cout << carattere << " : " << v[i] << endl;
+    carattere += 1;
+  }
+}
+
+int main(int argc, char * argv[]){
+
+  fstream input;
+
+  char *stringa = new char[MAX_DIM];
+  int *contatore = new int[NLETTERE];
+  
+  
+  if(argc!=2){
+    cout << "Usage : ./conta <input.txt " << endl;
+    return 0;
+  }
+
+  input.open(argv[1], ios::in);
+
+  if(input.fail()){
+    cout << "File inesistente" << endl;
+    return 0;
+  }
+
+  while(input.getline(stringa, MAX_DIM)){
+    cout << stringa << endl;
+    count_letter(stringa, contatore);
+  }
+
+  print_vector(contatore);
+  
+  delete[] stringa;
+  delete[] contatore;
+  input.close();  
+  return 0;
+}
